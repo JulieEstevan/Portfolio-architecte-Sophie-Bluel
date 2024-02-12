@@ -30,3 +30,17 @@ const displayWorks = () => {
 }
 
 displayWorks()
+
+const categoriesFilters = () => {
+    const filtersContainer = document.querySelector(".filters")
+    const buttonsFilterDefault = document.createElement("button")
+    buttonsFilterDefault.innerHTML = "Tous"
+    filtersContainer.appendChild(buttonsFilterDefault)
+    categories.forEach(categories => {
+        const buttonsFilter = document.createElement("button")
+        buttonsFilter.innerHTML = categories.name
+        filtersContainer.appendChild(buttonsFilter)
+    })
+}
+
+categoriesFilters()
