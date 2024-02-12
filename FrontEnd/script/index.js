@@ -22,25 +22,42 @@ const displayWorks = () => {
         workImage.src = works.imageUrl
         const workTitle = document.createElement("figcaption")
         workTitle.innerHTML = works.title
-
         worksGallery.appendChild(workContainer)
         workContainer.appendChild(workImage)
         workContainer.appendChild(workTitle)
     });
 }
 
-displayWorks()
-
 const categoriesFilters = () => {
+    const worksGallery = document.querySelector(".gallery")
     const filtersContainer = document.querySelector(".filters")
     const buttonsFilterDefault = document.createElement("button")
     buttonsFilterDefault.innerHTML = "Tous"
     filtersContainer.appendChild(buttonsFilterDefault)
+
+    buttonsFilterDefault.addEventListener("click", () => {
+        worksGallery.innerHTML = ""
+        displayWorks()
+    })
+
     categories.forEach(categories => {
         const buttonsFilter = document.createElement("button")
         buttonsFilter.innerHTML = categories.name
         filtersContainer.appendChild(buttonsFilter)
+
+        buttonsFilter.addEventListener("click", () => {           
+            //resoudre probleme, les travaux ne s'affiches pas au click, le displaywork ne fonctionne pas???
+            const filterWorks = works.filter((works) => {
+                return works.categoryId === categories.id
+            })
+
+            console.log("nouvelle liste", filterWorks)
+            worksGallery.innerHTML = ""
+            displayWorks(filterWorks)
+        })
     })
 }
 
+
+displayWorks()
 categoriesFilters()
