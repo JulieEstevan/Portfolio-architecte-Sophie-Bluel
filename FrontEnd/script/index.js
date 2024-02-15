@@ -4,7 +4,6 @@ const fetchWorks = async () => {
     return works
 }
 const works = await fetchWorks()
-console.log("works", works)
 
 const fetchCategories = async () => {
     const responseCategories = await fetch("http://localhost:5678/api/categories")
@@ -12,7 +11,6 @@ const fetchCategories = async () => {
     return categories
 }
 const categories = await fetchCategories()
-console.log("categories", categories)
 
 const displayWorks = () => {
     works.forEach(works => {
@@ -46,14 +44,13 @@ const categoriesFilters = () => {
         filtersContainer.appendChild(buttonsFilter)
 
         buttonsFilter.addEventListener("click", () => {           
-            //resoudre probleme, les travaux ne s'affiches pas au click, le displaywork ne fonctionne pas???
             const filterWorks = works.filter((works) => {
                 return works.categoryId === categories.id
             })
-
+//resoudre probleme, les travaux ne s'affiches pas au click, le displaywork ne fonctionne pas???
             console.log("nouvelle liste", filterWorks)
             worksGallery.innerHTML = ""
-            displayWorks(filterWorks)
+            displayWorks(filterWorks) 
         })
     })
 }

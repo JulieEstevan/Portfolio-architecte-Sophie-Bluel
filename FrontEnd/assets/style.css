@@ -78,26 +78,37 @@ h1 > span {
 ;
 }
 
-h2{
+h2, #login h1{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
 	color: #1D6154
 }
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
 
 }
-nav li {
+nav li a {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
 
-li:hover {
+li a:hover, #login a:hover {
 	color: #B1663C;
 }
+
+.login-nav {
+	font-weight: 800;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -141,27 +152,27 @@ li:hover {
 	width: 50%;
 margin: auto;
 }
-#contact > * {
+#contact > *, #login > * {
 	text-align: center;
 
 }
 #contact h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form, #login form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input, #login input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label, #login label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -203,6 +214,17 @@ input[type="submit"]{
 .filters button:active {
 	color: white;
 	background-color: #1D6154;
+}
+
+#login {
+	width: 50%;
+	margin: auto;
+	padding-top: 100px;
+	padding-bottom: 20%;
+}
+#login a {
+	text-align: center;
+	text-decoration: underline;
 }
 
 footer nav ul {
