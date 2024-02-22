@@ -194,7 +194,7 @@ input[type="submit"]{
 	display: flex;
 	justify-content: center;
 }
-.filters button {
+.filters .button {
 	font-family: 'Syne';
 	font-weight: 700;
 	text-align: center;
@@ -209,9 +209,10 @@ input[type="submit"]{
 	margin: 2em 0.5em;
 	background-color: white;
 	color: #1D6154;
+	cursor: pointer;
 }
 
-.filters button:active {
+.filters .button-active {
 	color: white;
 	background-color: #1D6154;
 }
@@ -223,8 +224,18 @@ input[type="submit"]{
 	padding-bottom: 20%;
 }
 #login a {
+	display: flex;
+	justify-content: center;
 	text-align: center;
 	text-decoration: underline;
+}
+
+#login span {
+	display: flex;
+	justify-content: center;
+	color: red;
+	font-weight: 700;
+	font-size: 16px;
 }
 
 footer nav ul {
