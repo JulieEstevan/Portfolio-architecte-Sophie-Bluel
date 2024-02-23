@@ -33,6 +33,7 @@ const categoriesFilters = () => {
     const buttonFilterDefault = document.createElement("button")
     buttonFilterDefault.classList.add("button", "button-active")
     buttonFilterDefault.innerHTML = "Tous"
+    buttonFilterDefault.value = 0
     filtersContainer.appendChild(buttonFilterDefault)
 
     categories.forEach(category => {
@@ -41,25 +42,22 @@ const categoriesFilters = () => {
         buttonFilter.innerHTML = category.name
         buttonFilter.value = category.id
         filtersContainer.appendChild(buttonFilter)
-        const filterWorks = works.filter((work) => {
-                return work.categoryId === category.id
-            })
-        
-        buttonFilter.addEventListener("click", () => {
+    })
+    const buttons = document.querySelectorAll("button")
+    
+    buttons.forEach(button => {
+        button.addEventListener("click", (event) => {
             worksGallery.innerHTML = ""
-            buttonFilterDefault.classList.remove("button-active")
-            displayWorks(filterWorks)
-        })
-
-        buttonFilterDefault.addEventListener("click", () => {
-        worksGallery.innerHTML = ""
-        buttonFilterDefault.classList.add("button-active")
-        buttonFilter.classList.remove("button-active")
-        displayWorks(works)
+            if (+button.value === 0) {
+                displayWorks(works)
+            } else {
+                const filterWorks = works.filter((work) => {
+                    return work.categoryId === +button.value
+                })
+                displayWorks(filterWorks)
+            }
         })
     })
-    
-    
 }
 categoriesFilters()
 

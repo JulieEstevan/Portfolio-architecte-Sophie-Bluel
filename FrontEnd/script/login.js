@@ -22,15 +22,24 @@ submit.addEventListener("click", (event) => {
     stockInputEmail = inputEmail.value
     stockInputPassword = inputPassword.value
     sendId()
-        .then((reponse) => reponse.json())
-        .then(login => {
-            if (login.token) {
-                localStorage.setItem("token", login.token)
-                window.location.href = "./index.html"
-            } else {
-                console.error("Le token n'a pas été trouvé")
-                errorDisplay.innerHTML = "Identifiant ou mot de passe incorrect"
+        .then(response => {
+            console.log(response)
+            if (response.status === 404) {
+                console.log("passe")
+                throw new Error("Identifiant incorrect")
+            } else if (response.status === 401) {
+                throw new Error("Mot de passe incorrect")
             }
+            return response.json()
+        })
+        .then((data) => {
+            console.log(data)
+            localStorage.setItem("token", data.token)
+            window.location.href = "./index.html"
+        })
+        .catch((error) => {
+            console.log(error)
+            errorDisplay.innerHTML = error
         })
 })
 
