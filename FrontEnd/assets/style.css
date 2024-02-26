@@ -48,8 +48,8 @@ table {
 }
 /** end reset css**/
 body {
+	margin: auto;
 	max-width: 1140px;
-	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
@@ -112,6 +112,7 @@ li a:hover, #login a:hover {
 #introduction {
 	display: flex;
 	align-items: center;
+	margin-bottom: 120px;
 }
 #introduction figure {
 	flex: 1
@@ -148,6 +149,11 @@ li a:hover, #login a:hover {
 	width: 100%;
 
 }
+
+.gallery-edit {
+	margin-top: 80px;
+}
+
 #contact {
 	width: 50%;
 margin: auto;
@@ -193,6 +199,7 @@ input[type="submit"]{
 .filters {
 	display: flex;
 	justify-content: center;
+	margin-bottom: 20px;
 }
 .filters .button {
 	font-family: 'Syne';
@@ -244,3 +251,12 @@ footer nav ul {
 	margin: 2em
 }
 
+.header-edit-active {
+	display: flex;
+	justify-content: center;
+	color: white;
+	background-color: black;
+	padding: 22px 0;
+	gap: 15px;
+	font-size: 16px;
+}

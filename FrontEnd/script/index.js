@@ -44,10 +44,12 @@ const categoriesFilters = () => {
         filtersContainer.appendChild(buttonFilter)
     })
     const buttons = document.querySelectorAll("button")
-    
     buttons.forEach(button => {
         button.addEventListener("click", (event) => {
+            const buttonActive = document.querySelector(".button-active")
+            buttonActive.classList.remove("button-active")
             worksGallery.innerHTML = ""
+            button.classList.add("button-active")
             if (+button.value === 0) {
                 displayWorks(works)
             } else {
@@ -59,8 +61,28 @@ const categoriesFilters = () => {
         })
     })
 }
-categoriesFilters()
+
+const editMod = () => {
+    const editHeader = document.querySelector(".header-edit")
+    editHeader.classList.add("header-edit-active")
+    editHeader.innerHTML = '<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>'
+    const logout = document.querySelector(".logout")
+    logout.innerHTML = "logout"
+    logout.href = "#" 
+    logout.addEventListener("click", () => {
+        localStorage.clear()
+        window.location.href = "./index.html"
+    })
+    worksGallery.classList.add("gallery-edit")
+}
+
+const displayModale = () => {
+    const editButton = document.querySelector(".edit")
+}
 
 if (token) {
-    
+    editMod()
+    displayModale()
+} else {
+    categoriesFilters()
 }
