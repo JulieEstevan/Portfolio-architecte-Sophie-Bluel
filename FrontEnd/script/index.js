@@ -1,6 +1,12 @@
 const token = localStorage.getItem("token")
+const body = document.querySelector("body")
 const worksGallery = document.querySelector(".gallery")
 const filtersContainer = document.querySelector(".filters")
+const editHeader = document.querySelector(".header-edit")
+const modal = document.querySelector("dialog")
+const modalCloseButton = document.querySelector(".close-button")
+const modalGallery = document.querySelector(".modal-gallery")
+const modalAddButton = document.querySelector(".modal-button-add")
 
 const fetchWorks = async () => {
     const responseWorks = await fetch("http://localhost:5678/api/works")
@@ -63,7 +69,6 @@ const categoriesFilters = () => {
 }
 
 const editMod = () => {
-    const editHeader = document.querySelector(".header-edit")
     editHeader.classList.add("header-edit-active")
     editHeader.innerHTML = '<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>'
     const logout = document.querySelector(".logout")
@@ -76,13 +81,45 @@ const editMod = () => {
     worksGallery.classList.add("gallery-edit")
 }
 
-const displayModale = () => {
+const modalEditDelet = () => {
+    modalGallery.innerHTML = ""
+    works.forEach(work => {
+        const modalImg = document.createElement("img")
+        modalImg.src = work.imageUrl
+        modalImg.classList.add("modal-img")
+        modalGallery.appendChild(modalImg)
+    })
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.close()
+        }  else if (event.target === modalCloseButton) {
+            modal.close()
+        }
+    })
+    modal.showModal()
+}
+
+const modalEditAdd = () => {
+
+}
+
+const displayModal = () => {
     const editButton = document.querySelector(".edit")
+    editButton.innerHTML = '<i class="fa-regular fa-pen-to-square"></i><p>modifier</p>'
+
+    editButton.addEventListener("click", () => {
+        modalEditDelet()
+    })
+
+    modalAddButton.addEventListener("click", () => {
+        console.log("bravo")
+        modalEditAdd()
+    })
 }
 
 if (token) {
     editMod()
-    displayModale()
+    displayModal()
 } else {
     categoriesFilters()
 }

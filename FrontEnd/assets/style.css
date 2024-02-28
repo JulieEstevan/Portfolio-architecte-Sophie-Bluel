@@ -101,7 +101,7 @@ nav li a {
 	font-size: 1.2em;
 }
 
-li a:hover, #login a:hover {
+li a:hover, #login a:hover, .edit:hover {
 	color: #B1663C;
 }
 
@@ -195,13 +195,14 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	cursor: pointer;
 }
 .filters {
 	display: flex;
 	justify-content: center;
 	margin-bottom: 20px;
 }
-.filters .button {
+.button {
 	font-family: 'Syne';
 	font-weight: 700;
 	text-align: center;
@@ -219,9 +220,105 @@ input[type="submit"]{
 	cursor: pointer;
 }
 
-.filters .button-active {
+.button-active {
 	color: white;
 	background-color: #1D6154;
+}
+
+.edit {
+	display: flex;
+	position: relative;
+	gap: 10px;
+	left: 690px;
+	bottom: 53px;
+	font-size: 16px;
+	cursor: pointer;
+	border: none;
+	background: none;
+}
+
+.modal {
+	width: 630px;
+	height: 688px;
+	border-radius: 10px;
+	border: none;
+	padding: 0;
+}
+
+.modal::backdrop {
+	background-color: black;
+	opacity: 0.3;
+}
+
+.modal-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.close-button {
+	position: relative;
+	left: 270px;
+	top: 25px;
+	border: none;
+	background: none;
+	padding: 5px;
+	cursor: pointer;
+}
+
+.close-button::after {
+	display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+	font: var(--fa-font-solid);
+	content: "\f00d";
+	font-size: 20px;
+}
+
+.modal-title {
+	text-align: center;
+	font-size: 26px;
+	margin-top: 40px;
+}
+
+.modal-gallery {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 40px 100px 10px 100px;
+}
+
+.modal-gallery::after {
+	position: relative;
+	content: "";
+	border-top: #B3B3B3 solid 1px;
+	width: 420px;
+	margin-top: 50px;
+}
+
+.modal-img {
+	width: 76px;
+	padding-bottom: 20px;
+}
+
+.modal-button-add {
+	font-family: 'Syne';
+	font-weight: 700;
+	text-align: center;
+	border-radius: 60px ;
+	height: 36px;
+	font-size: 14px;
+	border-style: solid;
+	border-color: #1D6154;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	width: auto;
+	padding: 0 4em;
+	margin: 2em 0.5em;
+	color: white;
+	background-color: #1D6154;
+	cursor: pointer;
 }
 
 #login {
