@@ -342,6 +342,7 @@ input[type="submit"]{
 
 .modal-img-add-container {
 	display: flex;
+	width: 100%;
 	flex-direction: column;
 	align-items: center;
 	background-color: #E8F1F6;
@@ -349,7 +350,7 @@ input[type="submit"]{
 	gap: 10px;
 }
 
-.modal-img-add-container::before {
+.modal-img-logo::before {
 	display: inline-block;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
@@ -362,6 +363,19 @@ input[type="submit"]{
 .modal-img-add-container p {
 	font-size: 10px;
 	color: #444444;
+}
+
+.modal-img-add-container-preview {
+	height: 184px;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	background-color: #E8F1F6;
+}
+
+.modal-img-preview {
+	width: 129px;
+	height: auto;
 }
 
 .img-add-button {
@@ -440,7 +454,7 @@ input[type="submit"]{
 	margin: 2em 0.5em;
 	color: white;
 	background-color: #A7A7A7;
-	cursor: pointer;
+	cursor:not-allowed;
 }
 
 .modal-change-button, .modal-validate-button-validate {

@@ -25,7 +25,6 @@ submit.addEventListener("click", (event) => {
         .then(response => {
             console.log(response)
             if (response.status === 404) {
-                console.log("passe")
                 throw new Error("Identifiant incorrect")
             } else if (response.status === 401) {
                 throw new Error("Mot de passe incorrect")
