@@ -1,26 +1,9 @@
-const fetchWorks = async () => {
-    const responseWorks = await fetch("http://localhost:5678/api/works")
-    const works = responseWorks.json()
-    return works
-}
-const works = await fetchWorks()
-const fetchCategories = async () => {
-    const responseCategories = await fetch("http://localhost:5678/api/categories")
-    const categories = responseCategories.json()
-    return categories
-}
-const categories = await fetchCategories()
+import {works, categories} from "./index.js"
 const modal = document.querySelector("dialog")
-
-export const displayModal = () => {
-    const editButton = document.querySelector(".edit")
-    editButton.innerHTML = '<i class="fa-regular fa-pen-to-square"></i><p>modifier</p>'
-
-    editButton.addEventListener("click", () => {
-        modalEditDelet()
-        modal.showModal()
-    })
-}
+const modalCloseButton = document.createElement("button")
+modalCloseButton.classList.add("close-button")
+const modalChangeButton = document.createElement("button")
+const arrowBack = document.createElement("button")
 
 export const modalEditDelet = () => {
     modal.innerHTML = ""
@@ -28,9 +11,6 @@ export const modalEditDelet = () => {
     const modalBoxDelet = document.createElement("div")
     modalBoxDelet.classList.add("modal-box")
     modal.appendChild(modalBoxDelet)
-
-    const modalCloseButton = document.createElement("button")
-    modalCloseButton.classList.add("close-button")
 
     const modalTitle = document.createElement("h3")
     modalTitle.classList.add("modal-title")
@@ -50,24 +30,10 @@ export const modalEditDelet = () => {
         modalGallery.appendChild(modalImgContainer)
     })
 
-    const modalChangeButton = document.createElement("button")
     modalChangeButton.classList.add("modal-change-button")
     modalChangeButton.innerHTML = "Ajouter une Photo"
 
     modalBoxDelet.append(modalCloseButton, modalTitle, modalGallery, modalChangeButton)
-
-    modal.addEventListener("click", (event) => {
-        if (event.target === modal) {
-            modal.close()
-        }  else if (event.target === modalCloseButton) {
-            modal.close()
-        }
-    })
-
-    modalChangeButton.addEventListener("click", () => {
-        modalEditAdd()
-        modalBoxDelet.remove()
-    })
 }
 
 export const modalEditAdd = () => {
@@ -77,12 +43,8 @@ export const modalEditAdd = () => {
     modalBoxAdd.classList.add("modal-box")
     modal.appendChild(modalBoxAdd)
 
-    const arrowBack = document.createElement("button")
     arrowBack.classList.add("arrow-back")
     arrowBack.innerHTML = '<i class="fa-solid fa-arrow-left fa-xl"></i>'
-    
-    const modalCloseButton = document.createElement("button")
-    modalCloseButton.classList.add("close-button")
 
     const modalTitle = document.createElement("h3")
     modalTitle.classList.add("modal-title")
@@ -111,9 +73,10 @@ export const modalEditAdd = () => {
     modalImgAddContainer.append(modalImgPreview, modalImgAddButton, modalImgAdd, modalImgRequirements)
 
     addEventListener("input", () => {
+        if (modalImgAdd.files[0].size <= 4000000) {
         const modalImgAddFile = document.querySelector("input[type=file]").files[0]
         const modalImgReader = new FileReader()
-
+        modalImgAddButton.classList.remove("img-add-button-error")
         modalImgReader.addEventListener("load", () => {
         modalImgPreview.src = modalImgReader.result
         })
@@ -124,9 +87,12 @@ export const modalEditAdd = () => {
             modalImgAddContainer.classList.remove("modal-img-logo")
             modalImgAddContainer.classList.replace("modal-img-add-container", "modal-img-add-container-preview")
         }
+        console.log(modalImgAddFile.size)
+        } else {
+            console.log("Error : Fichier trop volumineux")
+            modalImgAddButton.classList.add("img-add-button-error")
+        }
     })
-    
-
     const modalNameAddLabel = document.createElement("label")
     modalNameAddLabel.setAttribute("for", "title")
     modalNameAddLabel.innerHTML = "Titre"
@@ -151,20 +117,34 @@ export const modalEditAdd = () => {
     categories.forEach(category => {
         const categorySelectorOption = document.createElement("option")
         categorySelectorOption.innerHTML = category.name
+        categorySelectorOption.id = category.id
         modalCategorySelector.appendChild(categorySelectorOption)
     })
-
     const modalValidateButton = document.createElement("button")
     modalValidateButton.classList.add("modal-validate-button")
     modalValidateButton.innerHTML = "Valider"
-    //modalValidateButton.disabled = true
+    modalValidateButton.disabled = true
+    modalFormAdd.addEventListener("input", (event) => {
+        if (modalCategorySelector.value !== "" && modalNameAdd.value !== "" && modalImgAdd.value !== "") {
+            modalValidateButton.disabled = false
+            modalValidateButton.classList.replace("modal-validate-button", "modal-validate-button-validate")
+        } else {
+            modalValidateButton.disabled = true
+            modalValidateButton.classList.replace("modal-validate-button-validate", "modal-validate-button")
+        }
+    })
 
     modalBoxAdd.append(arrowBack, modalCloseButton, modalTitle, modalFormAdd, modalValidateButton)
     modalFormAdd.append(modalImgAddContainer, modalNameAddLabel, modalNameAdd, modalCategorySelectorLabel, modalCategorySelectorContainer)
+}
 
-    arrowBack.addEventListener("click", () => {
+export const displayModal = () => {
+    const editButton = document.querySelector(".edit")
+    editButton.innerHTML = '<i class="fa-regular fa-pen-to-square"></i><p>modifier</p>'
+
+    editButton.addEventListener("click", () => {
         modalEditDelet()
-        modalBoxAdd.remove()
+        modal.showModal()
     })
 
     modal.addEventListener("click", (event) => {
@@ -175,9 +155,11 @@ export const modalEditAdd = () => {
         }
     })
 
-    modalValidateButton.addEventListener("click", () => {
-    const modalForm = document.querySelector(".modal-form-add")
-    const modalAddFormData = new FormData()
-    console.log(modalAddFormData.entries(modalFormAdd))
+    modalChangeButton.addEventListener("click", () => {
+        modalEditAdd()
+    })
+
+    arrowBack.addEventListener("click", () => {
+        modalEditDelet()
     })
 }

@@ -360,6 +360,14 @@ input[type="submit"]{
 	color: #B9C5CC;
 }
 
+.img-add-button-error::before {
+	content: "Error : Fichier trop volumineux";
+	position: absolute;
+	top: 223px;
+	font-size: 14px;
+	color: red;
+}
+
 .modal-img-add-container p {
 	font-size: 10px;
 	color: #444444;

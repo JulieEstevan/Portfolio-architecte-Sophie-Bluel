@@ -1,4 +1,4 @@
-import { displayModal } from "./modal.js"
+
 const token = localStorage.getItem("token")
 const worksGallery = document.querySelector(".gallery")
 const filtersContainer = document.querySelector(".filters")
@@ -9,14 +9,14 @@ const fetchWorks = async () => {
     const works = responseWorks.json()
     return works
 }
-const works = await fetchWorks()
+export const works = await fetchWorks()
 
 const fetchCategories = async () => {
     const responseCategories = await fetch("http://localhost:5678/api/categories")
     const categories = responseCategories.json()
     return categories
 }
-const categories = await fetchCategories()
+export const categories = await fetchCategories()
 
 const displayWorks = (worksToDisplay) => {
     worksToDisplay.forEach(work => {
@@ -63,7 +63,7 @@ const categoriesFilters = () => {
         })
     })
 }
-
+import { displayModal } from "./modal.js"
 const editMod = () => {
     editHeader.classList.add("header-edit-active")
     editHeader.innerHTML = '<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>'
