@@ -2,16 +2,15 @@
 //---------- Variables and Functions import --------------------------
 
 import {works, categories, fetchWorks} from "./index.js"
+const token = localStorage.getItem(`token`)
 const modal = document.querySelector("dialog")
 const modalCloseButton = document.createElement("button")
 modalCloseButton.classList.add("close-button")
 const modalChangeButton = document.createElement("button")
 const arrowBack = document.createElement("button")
 
-
 //--------------------------------------------------------------------
 //---------- Modal of the Delete project feature ---------------------
-
 export const modalEditDelet = () => {
 
     //----------------------------------------------------------------
@@ -36,14 +35,46 @@ export const modalEditDelet = () => {
         const buttonDelet = document.createElement("button")
         buttonDelet.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>'
         buttonDelet.classList.add("button-delet")
+        buttonDelet.value = work.id
         const modalImg = document.createElement("img")
         modalImg.src = work.imageUrl
         modalImg.classList.add("modal-img")
         modalImgContainer.append(buttonDelet, modalImg)
         modalGallery.appendChild(modalImgContainer)
+
+    //----------------------------------------------------------------
+    //---------- Submit event for Deleting project -------------------
+        buttonDelet.addEventListener("click", (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        let id = buttonDelet.value
+        deletWork(id)
+        })
     })
 }
 
+//--------------------------------------------------------------------
+//---------- Function for Deleting project ---------------------------
+const deletWork = async (id) => {
+    await fetch("http://localhost:5678/api/works/" + id, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+    .then((response) => {
+        if (response.status === 200) {
+            console.log("passe")
+            alert(`Le projet n°` + id + ` a été suprimé`)
+        } else if (response.status === 401) {
+            alert("Vous n'avez pas l'authorization")
+            console.log("Erreur d'identification")
+        } else if (response.status === 500) {
+            alert("Erreur serveur")
+            console.log("Erreur serveur")
+        }
+    })
+}
 
 //--------------------------------------------------------------------
 //---------- Modal of the Adding project feature ---------------------
@@ -125,7 +156,7 @@ export const modalEditAdd = () => {
 
     //------------------------------------------------------------------
     //---------- Preview image and file size limit ---------------------
-    modalImgAdd.addEventListener("change", (event) => {
+    modalImgAdd.addEventListener("input", (event) => {
         if (modalImgAdd.files[0].size <= 4000000) {
             const modalImgAddFile = document.querySelector("input[type=file]").files[0]
             const modalImgReader = new FileReader()
@@ -135,7 +166,7 @@ export const modalEditAdd = () => {
             })
             const fileName = modalImgAddFile.name;
             const fileExtension = fileName.split(".").pop().toLowerCase();
-            if (fileExtension !== "jpg" && fileExtension !== "") {
+            if (fileExtension !== "jpg" && fileExtension !== "png") {
                 alert(
                     "Format de fichier non valide. Veuillez sélectionner un fichier au format JPG ou PNG."
                 );
@@ -170,25 +201,24 @@ export const modalEditAdd = () => {
     //------------------------------------------------------------------
     //---------- Submit event for Adding project -----------------------
     modalValidateButton.addEventListener("click", (event) => {
-    event.preventDefault()
-    let work = {
-    image: modalImgAdd.files[0],
-    title: modalNameAdd.value,
-    category: modalCategorySelector.value,
-    }
-    postNewWork(work)
+        event.preventDefault()
+        event.stopPropagation()
+        let work = {
+        image: modalImgAdd.files[0],
+        title: modalNameAdd.value,
+        category: modalCategorySelector.value,
+        }
+        postNewWork(work)
     })
 }
 
 //--------------------------------------------------------------------
 //---------- Function for Adding project -----------------------------
 const postNewWork = async (work) => {
-    const token = localStorage.getItem(`token`)
     const formData = new FormData()
     formData.append("image", work.image)
     formData.append("title", work.title)
     formData.append("category", work.category)
-    console.log(work.image)
     await fetch("http://localhost:5678/api/works", {
         method: "POST",
         headers: {
@@ -199,10 +229,15 @@ const postNewWork = async (work) => {
     .then((response) => {
         if (response.ok) {
             alert(`Votre projet ` + work.title + ` est en ligne`)
-            return fetchWorks()
-        } else {
-            alert("Veuillez remplir les formulaires ")
-            console.log("Erreur lors de la mise à jour de l'image ")
+        } else if (response.status === 400) {
+            alert("Veuillez remplir correctement le formulaire")
+            console.log("Erreur de formulaire")
+        } else if (response.status === 401) {
+            alert("Vous n'avez pas l'authorization")
+            console.log("Erreur d'identification'")
+        } else if (response.status === 500) {
+            alert("Erreur serveur")
+            console.log("Erreur serveur")
         }
     })
     .then((updateWorks) => {
