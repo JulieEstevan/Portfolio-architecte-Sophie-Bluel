@@ -4,7 +4,7 @@ const worksGallery = document.querySelector(".gallery")
 const filtersContainer = document.querySelector(".filters")
 const editHeader = document.querySelector(".header-edit")
 
-const fetchWorks = async () => {
+export const fetchWorks = async () => {
     const responseWorks = await fetch("http://localhost:5678/api/works")
     const works = responseWorks.json()
     return works

@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------
 //---------- Variables and Functions import --------------------------
 
-import {works, categories, displayWorks} from "./index.js"
+import {works, categories, fetchWorks, displayWorks} from "./index.js"
 const token = localStorage.getItem(`token`)
 const modal = document.querySelector("dialog")
 const modalCloseButton = document.createElement("button")
@@ -69,6 +69,8 @@ const deletWork = async (id) => {
         } else if (response.status === 500) {
             alert("Erreur serveur")
             console.log("Erreur serveur")
+        } else if (response.status === 200) {
+
         }
     })
 }
@@ -229,8 +231,13 @@ const postNewWork = async (work) => {
             alert("Erreur serveur")
             console.log("Erreur serveur")
         } else if (response.status === 201) {
-            console.log("test")
-            displayWorks(works)
+            fetchWorks()
+        }
+    })
+    .then((updateWorks) => {
+        if (updateWorks) {
+            works = updateWorks
+            displayWorks()
         }
     })
 }
