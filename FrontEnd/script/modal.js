@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------
 //---------- Variables and Functions import --------------------------
 
-import {works, categories, fetchWorks} from "./index.js"
+import {works, categories, displayWorks} from "./index.js"
 const token = localStorage.getItem(`token`)
 const modal = document.querySelector("dialog")
 const modalCloseButton = document.createElement("button")
@@ -63,10 +63,7 @@ const deletWork = async (id) => {
         }
     })
     .then((response) => {
-        if (response.status === 200) {
-            console.log("passe")
-            alert(`Le projet n°` + id + ` a été suprimé`)
-        } else if (response.status === 401) {
+        if (response.status === 401) {
             alert("Vous n'avez pas l'authorization")
             console.log("Erreur d'identification")
         } else if (response.status === 500) {
@@ -91,10 +88,12 @@ export const modalEditAdd = () => {
     const modalTitle = document.createElement("h3")
     modalTitle.classList.add("modal-title")
     modalTitle.innerHTML = "Ajout photo"
-    const modalValidateButton = document.createElement("button")
+    const modalValidateButton = document.createElement("input")
     modalValidateButton.classList.add("modal-validate-button")
     modalValidateButton.innerHTML = "Valider"
     modalValidateButton.type = "submit"
+    modalValidateButton.name = "submit"
+    modalValidateButton.id = "submit"
     modalValidateButton.disabled = true
 
     //----------------------------------------------------------------
@@ -151,27 +150,24 @@ export const modalEditAdd = () => {
         modalCategorySelector.appendChild(categorySelectorOption)
     })
 
-    modalBoxAdd.append(arrowBack, modalCloseButton, modalTitle, modalFormAdd, modalValidateButton)
-    modalFormAdd.append(modalImgAddContainer, modalNameAddLabel, modalNameAdd, modalCategorySelectorLabel, modalCategorySelectorContainer)
+    modalBoxAdd.append(arrowBack, modalCloseButton, modalTitle, modalFormAdd)
+    modalFormAdd.append(modalImgAddContainer, modalNameAddLabel, modalNameAdd, modalCategorySelectorLabel, modalCategorySelectorContainer, modalValidateButton)
 
     //------------------------------------------------------------------
     //---------- Preview image and file size limit ---------------------
     modalImgAdd.addEventListener("input", (event) => {
-        if (modalImgAdd.files[0].size <= 4000000) {
+        const fileName = modalImgAdd.files[0].name
+        const fileExtension = fileName.split(".").pop().toLowerCase()
+        if (modalImgAdd.files[0].size > 4000000 || fileExtension !== "jpg" && fileExtension !== "png") {
+            console.log("Error : Fichier trop volumineux ou format de fichier non valide.")
+            modalImgAddButton.classList.add("img-add-button-error")
+        } else {
             const modalImgAddFile = document.querySelector("input[type=file]").files[0]
             const modalImgReader = new FileReader()
             modalImgAddButton.classList.remove("img-add-button-error")
             modalImgReader.addEventListener("load", () => {
             modalImgPreview.src = modalImgReader.result
             })
-            const fileName = modalImgAddFile.name;
-            const fileExtension = fileName.split(".").pop().toLowerCase();
-            if (fileExtension !== "jpg" && fileExtension !== "png") {
-                alert(
-                    "Format de fichier non valide. Veuillez sélectionner un fichier au format JPG ou PNG."
-                );
-                return;
-            }
             if (modalImgAddFile) {
                 modalImgReader.readAsDataURL(modalImgAddFile)
                 modalImgRequirements.remove()
@@ -179,9 +175,6 @@ export const modalEditAdd = () => {
                 modalImgAddContainer.classList.remove("modal-img-logo")
                 modalImgAddContainer.classList.replace("modal-img-add-container", "modal-img-add-container-preview")
             }
-        } else {
-            console.log("Error : Fichier trop volumineux")
-            modalImgAddButton.classList.add("img-add-button-error")
         }
     })
 
@@ -200,15 +193,14 @@ export const modalEditAdd = () => {
 
     //------------------------------------------------------------------
     //---------- Submit event for Adding project -----------------------
-    modalValidateButton.addEventListener("click", (event) => {
+    modalFormAdd.addEventListener("submit", async (event) => {
         event.preventDefault()
-        event.stopPropagation()
         let work = {
         image: modalImgAdd.files[0],
         title: modalNameAdd.value,
         category: modalCategorySelector.value,
         }
-        postNewWork(work)
+        await postNewWork(work)
     })
 }
 
@@ -227,9 +219,7 @@ const postNewWork = async (work) => {
         body: formData,
     })
     .then((response) => {
-        if (response.ok) {
-            alert(`Votre projet ` + work.title + ` est en ligne`)
-        } else if (response.status === 400) {
+        if (response.status === 400) {
             alert("Veuillez remplir correctement le formulaire")
             console.log("Erreur de formulaire")
         } else if (response.status === 401) {
@@ -238,11 +228,8 @@ const postNewWork = async (work) => {
         } else if (response.status === 500) {
             alert("Erreur serveur")
             console.log("Erreur serveur")
-        }
-    })
-    .then((updateWorks) => {
-        if (updateWorks) {
-            works = updateWorks
+        } else if (response.status === 201) {
+            console.log("test")
             displayWorks(works)
         }
     })

@@ -361,7 +361,7 @@ input[type="submit"]{
 }
 
 .img-add-button-error::before {
-	content: "Error : Fichier trop volumineux";
+	content: "Fichier trop volumineux ou format de fichier non valide.";
 	position: absolute;
 	top: 223px;
 	font-size: 14px;

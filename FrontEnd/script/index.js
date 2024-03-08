@@ -4,7 +4,7 @@ const worksGallery = document.querySelector(".gallery")
 const filtersContainer = document.querySelector(".filters")
 const editHeader = document.querySelector(".header-edit")
 
-export const fetchWorks = async () => {
+const fetchWorks = async () => {
     const responseWorks = await fetch("http://localhost:5678/api/works")
     const works = responseWorks.json()
     return works
@@ -18,7 +18,7 @@ const fetchCategories = async () => {
 }
 export const categories = await fetchCategories()
 
-const displayWorks = (worksToDisplay) => {
+export const displayWorks = (worksToDisplay) => {
     worksToDisplay.forEach(work => {
         const workContainer = document.createElement("figure")
         const workImage = document.createElement("img")
