@@ -237,7 +237,7 @@ const postNewWork = async (work) => {
     .then((updateWorks) => {
         if (updateWorks) {
             works = updateWorks
-            displayWorks()
+            displayWorks(works)
         }
     })
 }
