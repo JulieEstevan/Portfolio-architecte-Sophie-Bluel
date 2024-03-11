@@ -232,13 +232,9 @@ const postNewWork = async (work) => {
             console.log("Erreur serveur")
         } else if (response.status === 201) {
             fetchWorks()
-        }
-    })
-    .then((updateWorks) => {
-        if (updateWorks) {
-            works = updateWorks
             const worksGallery = document.querySelector(".gallery")
-            worksGallery.replaceWith(worksGallery)
+            const worksGalleryContent = worksGallery.innerHTML
+            worksGallery.innerHTML = worksGalleryContent
         }
     })
 }
