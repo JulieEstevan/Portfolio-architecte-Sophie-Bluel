@@ -232,11 +232,15 @@ const postNewWork = async (work) => {
             console.log("Erreur serveur")
         } else if (response.status === 201) {
             fetchWorks()
-            const worksGallery = document.querySelector(".gallery")
-            const worksGalleryContent = worksGallery.innerHTML
-            worksGallery.innerHTML = worksGalleryContent
+            reloadGallery()
         }
     })
+}
+
+const reloadGallery = () => {
+    const worksGallery = document.querySelector(".gallery")
+    worksGallery.innerHTML = ""
+    displayWorks(works)
 }
 
 //--------------------------------------------------------------------
