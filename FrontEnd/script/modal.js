@@ -237,7 +237,8 @@ const postNewWork = async (work) => {
     .then((updateWorks) => {
         if (updateWorks) {
             works = updateWorks
-            displayWorks(works)
+            const worksGallery = document.querySelector(".gallery")
+            worksGallery.replaceWith(worksGallery)
         }
     })
 }
