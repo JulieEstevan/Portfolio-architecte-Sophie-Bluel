@@ -203,7 +203,7 @@ export const modalEditAdd = () => {
         category: modalCategorySelector.value,
         }
         await postNewWork(work)
-        close.displayWorks()
+        displayWorks("")
     })
 }
 
