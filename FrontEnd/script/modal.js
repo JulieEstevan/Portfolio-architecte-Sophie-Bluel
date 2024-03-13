@@ -11,7 +11,7 @@ const arrowBack = document.createElement("button")
 
 //--------------------------------------------------------------------
 //---------- Modal of the Delete project feature ---------------------
-export const modalEditDelet = () => {
+export const modalEditDelet = (works) => {
 
     //----------------------------------------------------------------
     //---------- Structure of the Delete Modal -----------------------
@@ -31,6 +31,7 @@ export const modalEditDelet = () => {
     //----------------------------------------------------------------
     //---------- Gallery of the Delete Modal -------------------------
     works.forEach(work => {
+        const modalGallery = document.querySelector(".modal-gallery")
         const modalImgContainer = document.createElement("div")
         const buttonDelet = document.createElement("button")
         buttonDelet.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>'
@@ -40,8 +41,8 @@ export const modalEditDelet = () => {
         modalImg.src = work.imageUrl
         modalImg.classList.add("modal-img")
         modalImgContainer.append(buttonDelet, modalImg)
-        modalGallery.appendChild(modalImgContainer)
-
+        modalGallery.appendChild(modalImgContainer)     
+        
     //----------------------------------------------------------------
     //---------- Submit event for Deleting project -------------------
         buttonDelet.addEventListener("click", (event) => {
@@ -50,30 +51,30 @@ export const modalEditDelet = () => {
         let id = buttonDelet.value
         deletWork(id)
         })
-    })
+    })  
 }
 
 //--------------------------------------------------------------------
 //---------- Function for Deleting project ---------------------------
-const deletWork = async (id) => {
-    await fetch("http://localhost:5678/api/works/" + id, {
-        method: "DELETE",
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    })
-    .then((response) => {
-        if (response.status === 401) {
-            alert("Vous n'avez pas l'authorization")
-            console.log("Erreur d'identification")
-        } else if (response.status === 500) {
-            alert("Erreur serveur")
-            console.log("Erreur serveur")
-        } else if (response.status === 200) {
-
-        }
-    })
-}
+    const deletWork = async (id) => {
+        await fetch("http://localhost:5678/api/works/" + id, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then((response) => {
+            if (response.status === 401) {
+                alert("Vous n'avez pas l'authorization")
+                console.log("Erreur d'identification")
+            } else if (response.status === 500) {
+                alert("Erreur serveur")
+                console.log("Erreur serveur")
+            } else if (response.ok) {
+                reloadGallery()
+            }
+        })
+    }
 
 //--------------------------------------------------------------------
 //---------- Modal of the Adding project feature ---------------------
@@ -232,16 +233,25 @@ const postNewWork = async (work) => {
             console.log("Erreur serveur")
         } else if (response.status === 201) {
             reloadGallery()
+            modal.close()
         }
     })
 }
 
-const reloadGallery = () => {
+    
+
+const reloadGallery = async () => {
     const worksGallery = document.querySelector(".gallery")
     worksGallery.innerHTML = ""
-    displayWorks(works)
-    console.log("passe")
-}
+    modal.innerHTML = ""
+    const newWork = await fetch("http://localhost:5678/api/works")
+  
+    const works = await newWork.json()
+    if (works) {
+        displayWorks(works)
+        modalEditDelet(works)
+    }
+  }
 
 //--------------------------------------------------------------------
 //---------- Display of the Modals -----------------------------------
@@ -250,7 +260,7 @@ export const displayModal = () => {
     editButton.innerHTML = '<i class="fa-regular fa-pen-to-square"></i><p>modifier</p>'
 
     editButton.addEventListener("click", () => {
-        modalEditDelet()
+        reloadGallery()
         modal.showModal()
     })
 
@@ -267,6 +277,6 @@ export const displayModal = () => {
     })
 
     arrowBack.addEventListener("click", () => {
-        modalEditDelet()
+        modalEditDelet(works)
     })
 }
