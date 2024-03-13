@@ -231,12 +231,7 @@ const postNewWork = async (work) => {
             alert("Erreur serveur")
             console.log("Erreur serveur")
         } else if (response.status === 201) {
-            fetchWorks()
-        }
-    })
-    .then((newWork) => {
-        if (newWork) {
-            displayWorks(newWork)
+            reloadGallery()
             modal.close()
         }
     })
@@ -244,7 +239,9 @@ const postNewWork = async (work) => {
 
 const reloadGallery = () => {
     const worksGallery = document.querySelector(".gallery")
-    //displayWorks(close)
+    worksGallery.innerHTML = ""
+    fetchWorks()
+    displayWorks(works)
 }
 
 //--------------------------------------------------------------------
