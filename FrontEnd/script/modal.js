@@ -233,7 +233,12 @@ const postNewWork = async (work) => {
         } else if (response.status === 201) {
             modal.close()
             displayWorks(close)
-            displayWorks(works)
+            fetchWorks()
+        }
+    })
+    .then((newWork) => {
+        if (newWork) {
+            displayWorks(newWork)
         }
     })
 }
