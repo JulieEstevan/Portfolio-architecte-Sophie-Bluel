@@ -203,6 +203,7 @@ export const modalEditAdd = () => {
         category: modalCategorySelector.value,
         }
         await postNewWork(work)
+        displayWorks(close)
     })
 }
 
@@ -231,14 +232,13 @@ const postNewWork = async (work) => {
             alert("Erreur serveur")
             console.log("Erreur serveur")
         } else if (response.status === 201) {
-            modal.close()
-            displayWorks(close)
             fetchWorks()
         }
     })
     .then((newWork) => {
         if (newWork) {
             displayWorks(newWork)
+            modal.close()
         }
     })
 }
