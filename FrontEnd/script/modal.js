@@ -57,7 +57,7 @@ export const modalEditDelet = (works) => {
 //--------------------------------------------------------------------
 //---------- Function for Deleting project ---------------------------
     const deletWork = async (id) => {
-        await fetch("http://localhost:5678/api/works/" + id, {
+        await fetch("https://portfolio-architecte-sophie-bluel-ci1l.onrender.com/api/works/" + id, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -214,7 +214,7 @@ const postNewWork = async (work) => {
     formData.append("image", work.image)
     formData.append("title", work.title)
     formData.append("category", work.category)
-    await fetch("http://localhost:5678/api/works", {
+    await fetch("https://portfolio-architecte-sophie-bluel-ci1l.onrender.com/api/works", {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -244,7 +244,7 @@ const reloadGallery = async () => {
     const worksGallery = document.querySelector(".gallery")
     worksGallery.innerHTML = ""
     modal.innerHTML = ""
-    const newWork = await fetch("http://localhost:5678/api/works")
+    const newWork = await fetch("https://portfolio-architecte-sophie-bluel-ci1l.onrender.com/api/works")
   
     const works = await newWork.json()
     if (works) {

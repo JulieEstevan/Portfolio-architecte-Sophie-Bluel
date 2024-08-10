@@ -5,14 +5,14 @@ const filtersContainer = document.querySelector(".filters")
 const editHeader = document.querySelector(".header-edit")
 
 export const fetchWorks = async () => {
-    const responseWorks = await fetch("http://localhost:5678/api/works")
+    const responseWorks = await fetch("https://portfolio-architecte-sophie-bluel-ci1l.onrender.com/api/works")
     const works = responseWorks.json()
     return works
 }
 export const works = await fetchWorks()
 
 const fetchCategories = async () => {
-    const responseCategories = await fetch("http://localhost:5678/api/categories")
+    const responseCategories = await fetch("https://portfolio-architecte-sophie-bluel-ci1l.onrender.com/api/categories")
     const categories = responseCategories.json()
     return categories
 }
