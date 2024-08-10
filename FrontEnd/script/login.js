@@ -41,10 +41,3 @@ submit.addEventListener("click", (event) => {
             errorDisplay.innerHTML = error
         })
 })
-
-inputEmail.addEventListener("input", (event) => {
-    console.log(event.target.value)
-})
-inputPassword.addEventListener("input", (event) => {
-    console.log(event.target.value)
-})
